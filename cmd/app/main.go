@@ -1,13 +1,13 @@
 package main
 
 import (
-	"check24/cmd/app/data"
-	"check24/cmd/app/models/comment"
-	"check24/cmd/app/models/item"
-	"check24/cmd/app/models/vote"
 	"crypto/sha256"
 	"crypto/subtle"
 	"database/sql"
+	"goapi/cmd/app/data"
+	"goapi/cmd/app/models/comment"
+	"goapi/cmd/app/models/item"
+	"goapi/cmd/app/models/vote"
 	"log"
 	"net/http"
 )
@@ -24,6 +24,7 @@ func main() {
 	var db *sql.DB
 	db = data.ConnectDB()
 	// init Handlers
+
 	ih := item.NewItemHandler(db)
 	vh := vote.NewVoteHandler(db)
 	ch := comment.NewCommentHandler(db)
