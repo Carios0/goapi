@@ -1,0 +1,35 @@
+services:
+  golang:
+    build: .docker/golang
+    restart: always
+    volumes:
+      - .:/var/www/html
+  mysql:
+    build: .docker/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+    restart: always
+  nginx:
+    build: .docker/nginx
+    depends_on:
+      - golang
+    ports:
+      - 8080:8080
+    restart: always
+    volumes:
+      - .:/var/www/html
+      - .docker/nginx/conf.d:/etc/nginx/templates
+  phpmyadmin:
+    build: .docker/phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: app
+      PMA_PASSWORD: app
+    ports:
+      - 8081:80
+    restart: always
